@@ -3,7 +3,7 @@
    dengan data disimpan di localStorage. File HTML/JS lain tidak perlu diubah. */
 (() => {
   const ADMIN_PASSWORD = 'admin123';          // ganti di sini jika perlu (hanya pengaman tampilan, bukan keamanan sungguhan)
-  const SESSION_MS = 7 * 24 * 3600 * 1000, K = { siswa: 'ws-siswa', seq: 'ws-siswa-seq', fav: 'ws-fav', ses: 'ws-sessions' };
+  const SESSION_MS = 7 * 24 * 3600 * 1000, K = { siswa: 'ws-siswa', seq: 'ws-siswa-seq', fav: 'ws-fav', ses: 'ws-sessions', users: 'ws-users' };
   const realFetch = window.fetch.bind(window);
   const ld = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch { return d; } };
   const sv = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -64,14 +64,29 @@
   // ---- Router: meniru endpoint server.js ----
   async function route(method, path, req) {
     const body = (() => { try { return JSON.parse(req.body); } catch { return {}; } })();
+    const rnd = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => b.toString(16).padStart(2, '0')).join('');
+    const sha = async t => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t))), b => b.toString(16).padStart(2, '0')).join('');
+    const newSession = (username, role) => {
+      const token = rnd(24), now = Date.now(), ses = ld(K.ses, {}); for (const t in ses) if (ses[t] < now - SESSION_MS) delete ses[t];
+      ses[token] = now; sv(K.ses, ses); return { status: 200, body: { token, username, role } };
+    };
     if (method === 'POST' && path === '/login') {
       const now = Date.now(); while (attempts.length && now - attempts[0] > 60000) attempts.shift();
       if (attempts.length >= 5) return fail(429, 'Terlalu banyak percobaan. Coba lagi 1 menit lagi.');
-      if (body.username !== 'admin' || body.password !== ADMIN_PASSWORD) { attempts.push(now); return fail(401, 'Username atau password salah.'); }
-      const token = Array.from(crypto.getRandomValues(new Uint8Array(24)), b => b.toString(16).padStart(2, '0')).join('');
-      const ses = ld(K.ses, {}); for (const t in ses) if (ses[t] < now - SESSION_MS) delete ses[t];
-      ses[token] = now; sv(K.ses, ses);
-      return { status: 200, body: { token, username: 'admin', role: 'Administrator' } };
+      const un = String(body.username || '').trim(), key = un.toLowerCase(), pw = String(body.password || ''), u = ld(K.users, {})[key];
+      let ok = null;
+      if (key === 'admin') { if (pw === ADMIN_PASSWORD) ok = ['admin', 'Administrator']; }
+      else if (u && u.h === await sha(u.s + pw)) ok = [u.u, u.role];
+      if (!ok) { attempts.push(now); return fail(401, 'Username atau password salah.'); }
+      return newSession(...ok);
+    }
+    if (method === 'POST' && path === '/register') {
+      const un = String(body.username || '').trim(), pw = String(body.password || ''), key = un.toLowerCase(), users = ld(K.users, {});
+      if (!/^[A-Za-z0-9_.]{3,20}$/.test(un)) return fail(400, 'Username 3-20 karakter: huruf, angka, titik, atau underscore.');
+      if (pw.length < 6) return fail(400, 'Password minimal 6 karakter.');
+      if (key === 'admin' || users[key]) return fail(400, 'Username sudah dipakai.');
+      const salt = rnd(8); users[key] = { u: un, s: salt, h: await sha(salt + pw), role: 'Pengguna' }; sv(K.users, users);
+      return newSession(un, 'Pengguna');
     }
     const token = (req.headers.Authorization || req.headers.authorization || '').slice(7), ses = ld(K.ses, {});
     if (!ses[token] || ses[token] < Date.now() - SESSION_MS) return fail(401, 'Unauthorized');

@@ -23,6 +23,7 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;fon
 .error.show{display:block}
 .login-btn{width:100%;padding:13px;border:0;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font:inherit;font-weight:800;cursor:pointer;margin-top:5px}
 .demo{margin-top:18px;padding:12px;border-radius:10px;background:#0b1220;color:#94a3b8;font-size:11px;line-height:1.7}.demo strong{color:#fff}
+.switch{text-align:center;margin-top:16px;color:#94a3b8;font-size:12px}.switch a{color:#a5b4fc;font-weight:700;text-decoration:none}
 .footer{text-align:center;color:#64748b;font-size:10px;margin-top:16px}
 </style>
 </head>
@@ -34,8 +35,8 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;fon
     <p>Professional Management System</p>
   </div>
   <div class="card">
-    <h2>Welcome back 👋</h2>
-    <p class="subtitle">Masuk untuk mengakses dashboard.</p>
+    <h2 id="title">Welcome back 👋</h2>
+    <p class="subtitle" id="sub">Masuk untuk mengakses dashboard.</p>
     <div id="error" class="error"></div>
     <form id="loginForm">
       <div class="group">
@@ -50,6 +51,14 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:center;fon
         </div>
       </div>
       <button class="login-btn" id="loginButton">Masuk ke Dashboard</button>
+      <p class="switch">Belum punya akun? <a href="#" onclick="showMode(true);return false">Daftar</a></p>
+    </form>
+    <form id="registerForm" hidden>
+      <div class="group"><label>Username</label><input id="rUser" class="input" placeholder="3-20 huruf, angka, titik, atau _" required></div>
+      <div class="group"><label>Password</label><input id="rPass" class="input" type="password" placeholder="Minimal 6 karakter" required></div>
+      <div class="group"><label>Ulangi password</label><input id="rPass2" class="input" type="password" placeholder="Ketik ulang password" required></div>
+      <button class="login-btn" id="registerButton">Buat akun</button>
+      <p class="switch">Sudah punya akun? <a href="#" onclick="showMode(false);return false">Masuk</a></p>
     </form>
   </div>
   <div class="footer">© <span id="year"></span> WebSuite</div>

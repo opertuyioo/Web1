@@ -1,7 +1,7 @@
 # WebSuite (versi GitHub Pages, terhubung ke Excel)
 
 Semua fitur WebSuite berjalan di browser: `static-api.js` menggantikan `server.js`, data disimpan di `localStorage`.
-Akun: `admin` / `admin123` (ubah di baris pertama `static-api.js`).
+Akun bawaan: `admin` / `admin123` (ubah di baris pertama `static-api.js`). Pengguna baru bisa mendaftar lewat tautan "Daftar" di halaman login.
 
 ## Koneksi langsung ke Excel
 Di halaman Data Siswa klik **Buka Excel**, lalu pilih file .xlsx yang ada atau buat file baru.
