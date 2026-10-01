@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WebSuite - Statistik</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script src="static-api.js"></script>
+<script src="auth.js"></script>
+<aside class="sidebar"></aside>
+<main class="main">
+  <header class="topbar">
+    <div class="page-title"><h1>Statistik</h1><p>Ringkasan performa sistem.</p></div>
+    <button class="btn" onclick="toggleTheme()">◐ Tema</button>
+  </header>
+
+  <section class="stats-grid">
+    <div class="card stat-card"><div class="stat-icon">👨‍🎓</div><p>Total Siswa</p><h2 id="students">0</h2></div>
+    <div class="card stat-card"><div class="stat-icon">🎵</div><p>Total Lagu</p><h2>1.000</h2></div>
+    <div class="card stat-card"><div class="stat-icon">❤️</div><p>Lagu Favorit</p><h2 id="favorites">0</h2></div>
+    <div class="card stat-card"><div class="stat-icon">🏆</div><p>Nilai Rata-rata</p><h2 id="average">0</h2></div>
+  </section>
+
+  <div class="content-grid">
+    <section class="card panel">
+      <div class="panel-title"><h2>Distribusi Nilai</h2></div>
+      <div class="progress-item">
+        <div class="progress-info"><strong>90 - 100</strong><span id="excellent">0%</span></div>
+        <div class="progress"><div class="progress-purple" id="barExcellent"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-info"><strong>80 - 89</strong><span id="good">0%</span></div>
+        <div class="progress"><div class="progress-green" id="barGood"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-info"><strong>70 - 79</strong><span id="medium">0%</span></div>
+        <div class="progress"><div class="progress-orange" id="barMedium"></div></div>
+      </div>
+    </section>
+    <section class="card panel">
+      <div class="panel-title"><h2>Status Siswa</h2></div>
+      <div class="activity"><div class="activity-icon">🟢</div><div><p>Aktif</p><small id="activeStudent">0 siswa</small></div></div>
+      <div class="activity"><div class="activity-icon">🔴</div><div><p>Nonaktif</p><small id="inactiveStudent">0 siswa</small></div></div>
+    </section>
+  </div>
+</main>
+<script src="api.js"></script>
+<script src="statistik.js"></script>
+</body>
+</html>

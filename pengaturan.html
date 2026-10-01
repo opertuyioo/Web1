@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WebSuite - Pengaturan</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script src="static-api.js"></script>
+<script src="auth.js"></script>
+<aside class="sidebar"></aside>
+<main class="main">
+  <header class="topbar">
+    <div class="page-title"><h1>Pengaturan</h1><p>Kelola preferensi aplikasi.</p></div>
+  </header>
+  <div class="settings-grid">
+    <section class="card panel">
+      <div class="panel-title"><h2>Tampilan</h2></div>
+      <div class="setting-row">
+        <div class="setting-info"><strong>Dark Mode</strong><small>Gunakan tema gelap.</small></div>
+        <label class="switch"><input type="checkbox" id="darkToggle" onchange="changeTheme(this)"><span class="slider"></span></label>
+      </div>
+    </section>
+    <section class="card panel">
+      <div class="panel-title"><h2>Profil</h2></div>
+      <div class="setting-row"><div class="setting-info"><strong>Username</strong><small data-user>Admin</small></div></div>
+      <div class="setting-row"><div class="setting-info"><strong>Role</strong><small data-role>Administrator</small></div></div>
+    </section>
+    <section class="card panel">
+      <div class="panel-title"><h2>Data</h2></div>
+      <div class="setting-row">
+        <div class="setting-info"><strong>Reset Data Siswa</strong><small>Menghapus seluruh data siswa di database.</small></div>
+        <button class="btn btn-danger" onclick="resetStudents()">Reset</button>
+      </div>
+      <div class="setting-row">
+        <div class="setting-info"><strong>Reset Favorit Musik</strong><small>Menghapus semua lagu favorit.</small></div>
+        <button class="btn btn-danger" onclick="resetFavorites()">Reset</button>
+      </div>
+    </section>
+    <section class="card panel">
+      <div class="panel-title"><h2>Akun</h2></div>
+      <div class="setting-row">
+        <div class="setting-info"><strong>Keluar dari akun</strong><small>Anda akan kembali ke halaman login.</small></div>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="api.js"></script>
+<script src="pengaturan.js"></script>
+</body>
+</html>

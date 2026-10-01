@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WebSuite - Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script src="static-api.js"></script>
+<script src="auth.js"></script>
+<aside class="sidebar"></aside>
+<main class="main">
+  <header class="topbar">
+    <div class="page-title">
+      <h1>Dashboard</h1>
+      <p>Selamat datang kembali, <strong data-user>Admin</strong>.</p>
+    </div>
+    <div class="top-actions"><button class="btn" onclick="toggleTheme()">◐ Tema</button></div>
+  </header>
+
+  <section class="stats-grid">
+    <div class="card stat-card"><div class="stat-icon">👨‍🎓</div><p>Total Siswa</p><h2 id="sTotal">0</h2></div>
+    <div class="card stat-card"><div class="stat-icon">🎵</div><p>Total Lagu</p><h2>1.000</h2></div>
+    <div class="card stat-card"><div class="stat-icon">❤️</div><p>Lagu Favorit</p><h2 id="sFav">0</h2></div>
+    <div class="card stat-card"><div class="stat-icon">🏆</div><p>Rata-rata Nilai</p><h2 id="sAvg">0</h2></div>
+  </section>
+
+  <div class="content-grid">
+    <section class="card panel">
+      <div class="panel-title"><h2>Ringkasan</h2><span>Dari database</span></div>
+      <div class="progress-item">
+        <div class="progress-info"><strong>Siswa Aktif</strong><span id="pAktif">0%</span></div>
+        <div class="progress"><div class="progress-purple" id="bAktif"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-info"><strong>Siswa Nilai ≥ 80</strong><span id="pNilai">0%</span></div>
+        <div class="progress"><div class="progress-green" id="bNilai"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-info"><strong>Lagu Difavoritkan</strong><span id="pFav">0%</span></div>
+        <div class="progress"><div class="progress-orange" id="bFav"></div></div>
+      </div>
+    </section>
+    <section class="card panel">
+      <div class="panel-title"><h2>Quick Access</h2></div>
+      <div class="quick-grid">
+        <a class="quick-item" href="siswa.html">👨‍🎓 <span>Kelola Data Siswa</span></a>
+        <a class="quick-item" href="music.html">🎵 <span>Buka Music Library</span></a>
+        <a class="quick-item" href="statistik.html">📈 <span>Lihat Statistik</span></a>
+        <a class="quick-item" href="pengaturan.html">⚙️ <span>Pengaturan</span></a>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="api.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+API.json('/stats').then(s => {
+  const pct = (v, t) => t ? Math.round(v / t * 100) : 0;
+  $('sTotal').textContent = s.total;
+  $('sFav').textContent = s.favorites;
+  $('sAvg').textContent = s.rata.toFixed(1);
+  const v = { Aktif: pct(s.aktif, s.total), Nilai: pct(s.excellent + s.good, s.total), Fav: pct(s.favorites, 1000) };
+  for (const k in v) { $('p' + k).textContent = v[k] + '%'; $('b' + k).style.width = v[k] + '%'; }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WebSuite - Login</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;font-family:Inter,sans-serif;color:#f8fafc;background:radial-gradient(circle at 15% 20%,#4338ca55,transparent 35%),radial-gradient(circle at 85% 80%,#a21caf44,transparent 35%),#070b14}
+.login{width:min(430px,92%)}
+.logo{text-align:center;margin-bottom:25px}
+.logo-icon{width:65px;height:65px;margin:auto;display:grid;place-items:center;border-radius:20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);font-size:28px;box-shadow:0 20px 50px #6366f155}
+.logo h1{margin-top:14px;font-size:27px}.logo p{margin-top:6px;color:#94a3b8;font-size:12px}
+.card{padding:30px;border-radius:23px;background:#111827ef;border:1px solid #29344a;box-shadow:0 30px 80px #0008}
+.card h2{font-size:21px}.subtitle{color:#94a3b8;font-size:12px;margin:7px 0 23px}
+.group{margin-bottom:16px}.group label{display:block;margin-bottom:7px;font-size:12px;font-weight:700}
+.input{width:100%;padding:13px;border:1px solid #29344a;border-radius:10px;background:#0b1220;color:#fff;outline:none;font:inherit}
+.input:focus{border-color:#6366f1}
+.password{position:relative}.password .input{padding-right:45px}
+.eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#94a3b8;cursor:pointer}
+.error{display:none;padding:11px;margin-bottom:15px;border-radius:10px;background:#ef444415;border:1px solid #ef444444;color:#fca5a5;font-size:11px}
+.error.show{display:block}
+.login-btn{width:100%;padding:13px;border:0;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font:inherit;font-weight:800;cursor:pointer;margin-top:5px}
+.demo{margin-top:18px;padding:12px;border-radius:10px;background:#0b1220;color:#94a3b8;font-size:11px;line-height:1.7}.demo strong{color:#fff}
+.footer{text-align:center;color:#64748b;font-size:10px;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="login">
+  <div class="logo">
+    <div class="logo-icon">✦</div>
+    <h1>WebSuite</h1>
+    <p>Professional Management System</p>
+  </div>
+  <div class="card">
+    <h2>Welcome back 👋</h2>
+    <p class="subtitle">Masuk untuk mengakses dashboard.</p>
+    <div id="error" class="error"></div>
+    <form id="loginForm">
+      <div class="group">
+        <label>Username</label>
+        <input id="username" class="input" placeholder="Masukkan username" required>
+      </div>
+      <div class="group">
+        <label>Password</label>
+        <div class="password">
+          <input id="password" class="input" type="password" placeholder="Masukkan password" required>
+          <button type="button" class="eye" onclick="togglePassword()">👁</button>
+        </div>
+      </div>
+      <button class="login-btn" id="loginButton">Masuk ke Dashboard</button>
+    </form>
+  </div>
+  <div class="footer">© <span id="year"></span> WebSuite</div>
+</div>
+<script src="static-api.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

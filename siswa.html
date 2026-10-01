@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WebSuite - Data Siswa</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script src="static-api.js"></script>
+<script src="auth.js"></script>
+<aside class="sidebar"></aside>
+<main class="main">
+  <header class="topbar">
+    <div class="page-title">
+      <h1>Data Siswa</h1>
+      <p>Klik <strong>Buka Excel</strong> untuk menyambungkan file .xlsx: edit di Excel lalu Save. Perlu Chrome atau Edge di komputer.</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn" onclick="toggleTheme()">◐</button>
+      <button class="btn" onclick="importFile.click()">⬆ Import Excel</button>
+      <input type="file" id="importFile" accept=".xlsx" hidden onchange="importExcel(this)">
+      <button class="btn" onclick="exportExcel()">⬇ Export Excel</button>
+      <button class="btn" onclick="openExcel()">📂 Buka Excel</button>
+      <button class="btn btn-primary" onclick="openModal()">＋ Tambah Siswa</button>
+    </div>
+  </header>
+
+  <section class="stats-grid">
+    <div class="card stat-card"><div class="stat-icon">👨‍🎓</div><p>Total Siswa</p><h2 id="total">0</h2></div>
+    <div class="card stat-card"><div class="stat-icon">✅</div><p>Siswa Aktif</p><h2 id="aktif">0</h2></div>
+    <div class="card stat-card"><div class="stat-icon">📚</div><p>Total Kelas</p><h2 id="kelas">0</h2></div>
+    <div class="card stat-card"><div class="stat-icon">🏆</div><p>Rata-rata Nilai</p><h2 id="rata">0</h2></div>
+  </section>
+
+  <section class="card panel" style="margin-top:20px">
+    <div class="toolbar">
+      <div class="search-box"><input id="search" placeholder="🔎 Cari nama, NIS atau email..." oninput="render()"></div>
+      <select id="filterKelas" class="select" style="max-width:180px" onchange="render()">
+        <option value="">Semua Kelas</option>
+        <option>10 IPA</option><option>10 IPS</option><option>11 IPA</option>
+        <option>11 IPS</option><option>12 IPA</option><option>12 IPS</option>
+      </select>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Siswa</th><th>NIS</th><th>Kelas</th><th>Email</th><th>Nilai</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<div id="modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="modalTitle">Tambah Siswa</h2>
+      <button class="btn" onclick="closeModal()">✕</button>
+    </div>
+    <form id="studentForm">
+      <input type="hidden" id="editId">
+      <div class="form-grid">
+        <div class="form-group"><label>Nama Lengkap</label><input id="nama" class="input" required></div>
+        <div class="form-group"><label>NIS</label><input id="nis" class="input" required></div>
+        <div class="form-group"><label>Kelas</label>
+          <select id="kelasInput" class="select">
+            <option>10 IPA</option><option>10 IPS</option><option>11 IPA</option>
+            <option>11 IPS</option><option>12 IPA</option><option>12 IPS</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Nilai</label><input id="nilai" class="input" type="number" min="0" max="100" required></div>
+        <div class="form-group full"><label>Email</label><input id="email" class="input" type="email" required></div>
+        <div class="form-group"><label>Status</label>
+          <select id="status" class="select"><option>Aktif</option><option>Nonaktif</option></select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" onclick="closeModal()">Batal</button>
+        <button class="btn btn-primary">Simpan</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="api.js"></script>
+<script src="siswa.js"></script>
+</body>
+</html>
